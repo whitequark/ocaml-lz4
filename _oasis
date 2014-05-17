@@ -1,0 +1,43 @@
+OASISFormat  : 0.4
+Name         : lz4
+Version      : 1.0
+Synopsis     : LZ4 bindings for OCaml
+Authors      : Peter Zotov
+License      : BSD-3-clause
+Plugins      : DevFiles (0.3), META (0.3)
+BuildTools   : ocamlbuild
+Maintainers  : Peter Zotov <whitequark@whitequark.org>
+Homepage     : https://github.com/whitequark/ocaml-lz4
+
+Library "lz4"
+  Path:             lib
+  Modules:          LZ4
+  BuildDepends:     bytes, ctypes.foreign
+  CCLib:            -llz4
+
+Executable "test_lz4"
+  Build$:           flag(tests)
+  Install:          false
+  Path:             lib_test
+  MainIs:           test_LZ4.ml
+  BuildDepends:     oUnit (>= 2.0), lz4
+  CompiledObject:   best
+
+Test "lz4"
+  Command:          $test_lz4
+
+AlphaFeatures: ocamlbuild_more_args
+Document "api"
+  Type:             ocamlbuild (0.4)
+  BuildTools:       ocamldoc
+  Title:            API reference for OCaml-LZ4
+
+  XOCamlbuildPath:      .
+  XOCamlbuildExtraArgs: "-docflags '-colorize-code -short-functors -charset utf-8'"
+  XOCamlbuildLibraries: lz4
+
+SourceRepository "master"
+  Type:             git
+  Location:         https://github.com/whitequark/ocaml-lz4.git
+  Branch:           master
+  Browser:          https://github.com/whitequark/ocaml-lz4

@@ -1,0 +1,13 @@
+opam-version: "1"
+maintainer: "whitequark@whitequark.org"
+build: [
+  ["ocaml" "setup.ml" "-configure" "--prefix" prefix]
+  ["ocaml" "setup.ml" "-build"]
+  ["ocaml" "setup.ml" "-install"]
+]
+remove: [["ocamlfind" "remove" "lz4"]]
+depends: ["ocamlfind" "ctypes"]
+depexts: [
+  [["debian"] ["liblz4-dev"]]
+  [["ubuntu"] ["liblz4-dev"]]
+]
