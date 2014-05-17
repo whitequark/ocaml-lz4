@@ -1,18 +1,6 @@
 open Ctypes
 
-module C = struct
-  open Foreign
-
-  let compressBound = foreign "LZ4_compressBound" (int @-> returning int)
-  let b_compress    = foreign "LZ4_compress"
-                              (ocaml_bytes @-> ocaml_bytes @-> int @-> returning int)
-  let ba_compress   = foreign "LZ4_compress"
-                              (ptr char @-> ptr char @-> int @-> returning int)
-  let b_decompress  = foreign "LZ4_decompress_safe"
-                              (ocaml_bytes @-> ocaml_bytes @-> int @-> int @-> returning int)
-  let ba_decompress = foreign "LZ4_decompress_safe"
-                              (ptr char @-> ptr char @-> int @-> int @-> returning int)
-end
+module C = LZ4_bindings.C(LZ4_generated)
 
 exception Input_too_large
 exception Corrupted

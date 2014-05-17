@@ -12,8 +12,18 @@ Homepage     : https://github.com/whitequark/ocaml-lz4
 Library "lz4"
   Path:             lib
   Modules:          LZ4
-  BuildDepends:     bytes, ctypes.foreign
+  InternalModules:  LZ4_bindings, LZ4_generated
+  CSources:         LZ4_stubs.c
   CCLib:            -llz4
+  CCOpt:            -I $pkg_ctypes_stubs/..
+  BuildDepends:     bytes, ctypes.stubs
+  BuildTools:       lz4_bindgen
+
+Executable "lz4_bindgen"
+  Install:          false
+  Path:             lib_gen
+  MainIs:           LZ4_bindgen.ml
+  BuildDepends:     ctypes.stubs
 
 Executable "test_lz4"
   Build$:           flag(tests)
