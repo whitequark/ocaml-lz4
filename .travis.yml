@@ -1,6 +1,6 @@
 language: c
 env:
-  - OPAM_PACKAGES="ounit oasis"
+  - OPAM_PACKAGES="ctypes ounit oasis"
 script:
   - echo "yes" | sudo add-apt-repository ppa:avsm/ppa
   - sudo apt-get update -qq
@@ -9,6 +9,7 @@ script:
   - opam init
   - eval `opam config -env`
   - opam pin ocamlfind git://github.com/whitequark/ocaml-findlib
+  - opam pin ctypes git://github.com/whitequark/ocaml-ctypes#whitequark-bytes
   - opam install -q -y ${OPAM_PACKAGES}
   - ./configure --enable-tests
   - make test
