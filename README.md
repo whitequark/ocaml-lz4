@@ -24,6 +24,15 @@ Usage
 
 The bindings are contained in findlib package `lz4`.
 
+To roundtrip some data:
+
+``` ocaml
+let data         = "wild wild fox" in
+let compressed   = LZ4.Bytes.compress (Bytes.of_string data) in
+let decompressed = LZ4.Bytes.decompress ~length:(String.length data) compressed in
+Printf.printf "%S\n" (Bytes.to_string data) (* => "wild wild fox" *)
+```
+
 Documentation
 -------------
 
