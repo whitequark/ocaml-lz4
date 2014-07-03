@@ -1,5 +1,5 @@
-OCaml Inotify bindings
-======================
+OCaml LZ4 bindings
+==================
 
 This package contains bindings for [LZ4][], a very fast lossless compression
 algorithm.
