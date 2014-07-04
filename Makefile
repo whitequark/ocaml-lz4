@@ -51,4 +51,15 @@ gh-pages: doc
 	git -C .gh-pages push origin gh-pages -f
 	rm -rf .gh-pages
 
-.PHONY: gh-pages
+release:
+	@if [ -z "$(VERSION)" ]; then echo "Usage: make release VERSION=1.0.0"; exit 1; fi
+	git checkout -B release
+	oasis setup
+	git add .
+	git commit -m "Generate OASIS files."
+	git tag -a v$(VERSION) -m "Version $(VERSION)"
+	git checkout @{-1}
+	git branch -D release
+	git push origin v$(VERSION)
+
+.PHONY: gh-pages release
