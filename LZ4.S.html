@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="LZ4.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="LZ4" rel="Chapter" href="LZ4.html"><title>LZ4.S</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="LZ4.html" title="LZ4">Up</a>
+&nbsp;</div>
+<h1>Module type <a href="type_LZ4.S.html">LZ4.S</a></h1>
+
+<pre><span class="keyword">module type</span> S = <code class="code"><span class="keyword">sig</span></code> <a href="LZ4.S.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><hr width="100%">
+
+<pre><span id="TYPEstorage"><span class="keyword">type</span> <code class="type"></code>storage</span> </pre>
+
+
+<pre><span id="VALcompress"><span class="keyword">val</span> compress</span> : <code class="type"><a href="LZ4.S.html#TYPEstorage">storage</a> -> <a href="LZ4.S.html#TYPEstorage">storage</a></code></pre><div class="info ">
+<code class="code">compress input</code> returns LZ4-compressed <code class="code">input</code> or raises <code class="code"><span class="constructor">Input_too_large</span></code>
+      if <code class="code">input</code> is longer than <code class="code">0x7E000000</code> bytes.<br>
+</div>
+
+<pre><span id="VALdecompress"><span class="keyword">val</span> decompress</span> : <code class="type">length:int -> <a href="LZ4.S.html#TYPEstorage">storage</a> -> <a href="LZ4.S.html#TYPEstorage">storage</a></code></pre><div class="info ">
+<code class="code">decompress ~length input</code> returns LZ4-decompressed <code class="code">input</code> or raises <code class="code"><span class="constructor">Corrupted</span></code>
+      if <code class="code">input</code> does not constitute a valid LZ4-compressed stream which uncompresses
+      into <code class="code">length</code> bytes or less.
+      Raises <code class="code"><span class="constructor">Invalid_argument</span> <span class="string">"LZ4.decompress"</span></code> if <code class="code">length</code> is negative.<br>
+</div>
+</body></html>
