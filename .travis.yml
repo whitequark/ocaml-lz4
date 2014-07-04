@@ -3,6 +3,7 @@ env:
   - OPAM_PACKAGES="ctypes ounit oasis"
 script:
   - echo "yes" | sudo add-apt-repository ppa:avsm/ppa
+  - echo "yes" | sudo add-apt-repository ppa:nathan-renniewaldock/ppa # lz4
   - sudo apt-get update -qq
   - sudo apt-get install -qq ocaml opam liblz4-dev
   - export OPAMYES=1
