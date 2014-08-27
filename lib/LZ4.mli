@@ -4,7 +4,8 @@ exception Input_too_large
 exception Corrupted
 
 (** [compress_bound sz] returns the maximum size of the LZ4 output
-    for [sz] bytes of input, or raises [Input_too_large] if [sz > 0x7E000000].
+    for [sz] bytes of input. It raises [Input_too_large] if [sz > 0x7E000000] or if the
+    result would be larger than [Pervasives.max_int] (the latter is only possible, if [Sys.word_size = 32]).
     Raises [Invalid_argument "LZ4.compress_bound"] if [sz] is negative. *)
 val compress_bound : int -> int
 
