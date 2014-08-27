@@ -7,7 +7,7 @@ exception Corrupted
 
 let compress_bound sz =
   if sz < 0 then invalid_arg "LZ4.compress_bound";
-  if sz > 0x7E000000 then raise Input_too_large;
+  if Sys.word_size > 32 && sz > 0x7E000000 then raise Input_too_large;
   C.compressBound sz
 
 module type S = sig
