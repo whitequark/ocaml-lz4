@@ -2,8 +2,10 @@ open OUnit2
 
 let test_compress_bound ctxt =
   assert_equal ~printer:string_of_int 273 (LZ4.compress_bound 256);
+  assert_equal ~printer:string_of_int 1_073_741_823 (* max_int at 32-bit *)
+    (LZ4.compress_bound 1_069_547_504);
   assert_raises LZ4.Input_too_large (fun () ->
-    if Sys.word_size = 32 then raise LZ4.Input_too_large
+    if Sys.word_size = 32 then LZ4.compress_bound 1_069_547_505
     else LZ4.compress_bound 0x7E000001);
   assert_raises (Invalid_argument "LZ4.compress_bound") (fun () ->
     LZ4.compress_bound (-1))
