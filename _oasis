@@ -1,6 +1,6 @@
 OASISFormat  : 0.4
 Name         : lz4
-Version      : 1.0
+Version      : 1.0.1
 Synopsis     : LZ4 bindings for OCaml
 Authors      : Peter Zotov
 License      : BSD-3-clause
@@ -15,7 +15,7 @@ Library "lz4"
   InternalModules:  LZ4_bindings, LZ4_generated
   CSources:         LZ4_stubs.c
   CCLib:            -llz4
-  CCOpt:            -I $pkg_ctypes_stubs/..
+  CCOpt:            -I $pkg_ctypes_stubs
   BuildDepends:     bytes, ctypes.stubs
   BuildTools:       lz4_bindgen
 
