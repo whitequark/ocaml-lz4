@@ -61,14 +61,21 @@ module Bigbytes = struct
 
   open Bigarray
 
-  let compress input =
-    let output = Array1.create char c_layout (compress_bound (Array1.dim input)) in
-    let length = C.ba_compress (bigarray_start array1 input) (bigarray_start array1 output)
-                               (Array1.dim input) in
-    Array1.sub output 0 length
-
   let compress_buff input out_buff offset len =
-    failwith "not implemented yet"
+    let in_length = Array1.dim input in
+    let bound = compress_bound in_length in
+    if bound > len then raise Input_too_large;
+    C.ba_compress
+      (bigarray_start array1 input)
+      (bigarray_start array1 out_buff +@ offset)
+      in_length
+
+  let compress input =
+    let in_length = Array1.dim input in
+    let out_length = compress_bound in_length in
+    let output = Array1.create char c_layout out_length in
+    let length = compress_buff input output 0 out_length in
+    Array1.sub output 0 length
 
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
