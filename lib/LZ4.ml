@@ -97,13 +97,23 @@ module Bigbytes = struct
     Array1.sub output 0 length
 
   let decompress_buff input output ~offset ~length =
-    failwith "not implemented yet"
+    if length < 0 || offset < 0 then invalid_arg "LZ4.decompress_buff";
+    let length' =
+      C.ba_decompress
+        (bigarray_start array1 input)
+        ((bigarray_start array1 output) +@ offset)
+        (Array1.dim input)
+        length
+    in
+    if length' < 0 then
+      raise Corrupted
+    else
+      length'
 
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
     let output  = Array1.create char c_layout length in
-    let length' = C.ba_decompress (bigarray_start array1 input) (bigarray_start array1 output)
-                                  (Array1.dim input) length in
+    let length' = decompress_buff input output 0 length in
     if length' < 0 then
       raise Corrupted
     else if length' <> length then
