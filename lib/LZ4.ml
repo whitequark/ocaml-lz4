@@ -18,15 +18,18 @@ let compress_bound (sz: int) =
 module type S = sig
   type storage
 
-  val compress   : storage -> storage
+  val compress : storage -> storage
   val compress_buff : storage -> storage -> offset:int -> length:int -> int
   val decompress : length:int -> storage -> storage
+  val decompress_buff : storage -> storage -> offset:int -> length:int -> int
+
 end
 
 module Bytes = struct
   type storage = Bytes.t
 
   let compress_buff input out_buff ~offset ~length =
+    if length < 0 || offset < 0 then invalid_arg "LZ4.compress_buff";
     let in_length = Bytes.length input in
     let bound = compress_bound in_length in
     if bound > length then raise Input_too_large;
@@ -42,17 +45,32 @@ module Bytes = struct
     let length = compress_buff input output 0 out_length in
     Bytes.sub output 0 length
 
+  let decompress_buff input output ~offset ~length =
+    if length < 0 || offset < 0 then invalid_arg "LZ4.decompress_buff";
+    let in_length = Bytes.length input in
+    let length' =
+      C.b_decompress
+        (ocaml_bytes_start input)
+        (ocaml_bytes_start output +@ offset)
+        in_length
+        length
+    in
+    if length' < 0 then
+      raise Corrupted
+    else
+      length'
+
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
-    let output  = Bytes.create length in
-    let length' = C.b_decompress (ocaml_bytes_start input) (ocaml_bytes_start output)
-                                 (Bytes.length input) length in
+    let output = Bytes.create length in
+    let length' = decompress_buff input output 0 length in
     if length' < 0 then
       raise Corrupted
     else if length' <> length then
       Bytes.sub output 0 length'
     else
       output
+
 end
 
 module Bigbytes = struct
@@ -62,6 +80,7 @@ module Bigbytes = struct
   open Bigarray
 
   let compress_buff input out_buff ~offset ~length =
+    if length < 0 || offset < 0 then invalid_arg "LZ4.compress_buff";
     let in_length = Array1.dim input in
     let bound = compress_bound in_length in
     if bound > length then raise Input_too_large;
@@ -77,6 +96,9 @@ module Bigbytes = struct
     let length = compress_buff input output 0 out_length in
     Array1.sub output 0 length
 
+  let decompress_buff input output ~offset ~length =
+    failwith "not implemented yet"
+
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
     let output  = Array1.create char c_layout length in
@@ -88,4 +110,5 @@ module Bigbytes = struct
       Array1.sub output 0 length'
     else
       output
+
 end
