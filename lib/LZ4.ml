@@ -5,7 +5,7 @@ module C = LZ4_bindings.C(LZ4_generated)
 exception Input_too_large
 exception Corrupted
 
-let compress_bound sz =
+let compress_bound (sz: int) =
   if sz < 0 then invalid_arg "LZ4.compress_bound";
   if Sys.word_size = 32 then (
     if  sz > 1_069_547_504 then
@@ -19,16 +19,27 @@ module type S = sig
   type storage
 
   val compress   : storage -> storage
+  val compress_buff : storage -> storage -> int -> int -> int
   val decompress : length:int -> storage -> storage
 end
 
 module Bytes = struct
   type storage = Bytes.t
 
+  let compress_buff input out_buff offset len =
+    let in_length = Bytes.length input in
+    let bound = compress_bound in_length in
+    if bound > len then raise Input_too_large;
+    C.b_compress
+      (ocaml_bytes_start input)
+      (ocaml_bytes_start out_buff +@ offset)
+      in_length
+
   let compress input =
-    let output = Bytes.create (compress_bound (Bytes.length input)) in
-    let length = C.b_compress (ocaml_bytes_start input) (ocaml_bytes_start output)
-                              (Bytes.length input) in
+    let in_length = Bytes.length input in
+    let out_length = compress_bound in_length in
+    let output = Bytes.create out_length in
+    let length = compress_buff input output 0 out_length in
     Bytes.sub output 0 length
 
   let decompress ~length input =
@@ -55,6 +66,9 @@ module Bigbytes = struct
     let length = C.ba_compress (bigarray_start array1 input) (bigarray_start array1 output)
                                (Array1.dim input) in
     Array1.sub output 0 length
+
+  let compress_buff input out_buff offset len =
+    failwith "not implemented yet"
 
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
