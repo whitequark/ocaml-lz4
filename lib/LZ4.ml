@@ -19,17 +19,17 @@ module type S = sig
   type storage
 
   val compress   : storage -> storage
-  val compress_buff : storage -> storage -> int -> int -> int
+  val compress_buff : storage -> storage -> offset:int -> length:int -> int
   val decompress : length:int -> storage -> storage
 end
 
 module Bytes = struct
   type storage = Bytes.t
 
-  let compress_buff input out_buff offset len =
+  let compress_buff input out_buff ~offset ~length =
     let in_length = Bytes.length input in
     let bound = compress_bound in_length in
-    if bound > len then raise Input_too_large;
+    if bound > length then raise Input_too_large;
     C.b_compress
       (ocaml_bytes_start input)
       (ocaml_bytes_start out_buff +@ offset)
@@ -61,10 +61,10 @@ module Bigbytes = struct
 
   open Bigarray
 
-  let compress_buff input out_buff offset len =
+  let compress_buff input out_buff ~offset ~length =
     let in_length = Array1.dim input in
     let bound = compress_bound in_length in
-    if bound > len then raise Input_too_large;
+    if bound > length then raise Input_too_large;
     C.ba_compress
       (bigarray_start array1 input)
       (bigarray_start array1 out_buff +@ offset)

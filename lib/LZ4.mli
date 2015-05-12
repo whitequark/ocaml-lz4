@@ -14,14 +14,15 @@ module type S = sig
 
   (** [compress input] returns LZ4-compressed [input] or raises [Input_too_large]
       if [input] is longer than [0x7E000000] bytes. *)
-  val compress   : storage -> storage
+  val compress : storage -> storage
+
   (** [compress_buff input buf ofs len] writes LZ4-compressed [input]
       into [buf] starting at offset [ofs] and up to [len] bytes.
       Returns the number of bytes actually written in [buf]
       or raises [Input_too_large]
       if [input] is longer than [0x7E000000] bytes
       or compress_bound of input is larger than [len]. *)
-  val compress_buff : storage -> storage -> int -> int -> int
+  val compress_buff : storage -> storage -> offset:int -> length:int -> int
 
   (** [decompress ~length input] returns LZ4-decompressed [input] or raises [Corrupted]
       if [input] does not constitute a valid LZ4-compressed stream which uncompresses
