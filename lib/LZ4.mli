@@ -16,14 +16,14 @@ module type S = sig
       if [input] is longer than [0x7E000000] bytes. *)
   val compress : storage -> storage
 
-  (** [compress_buff input buf ofs len] writes LZ4-compressed [input]
+  (** [compress_at input buf ofs len] writes LZ4-compressed [input]
       into [buf] starting at offset [ofs] and up to [len] bytes.
       Returns the number of bytes actually written in [buf]
       or raises [Input_too_large]
       if [input] is longer than [0x7E000000] bytes
       or compress_bound of input is larger than [len].
       Raises [Invalid_argument "LZ4.decompress"] if [length] or [offset] is negative. *)
-  val compress_buff : storage -> storage -> offset:int -> length:int -> int
+  val compress_at : storage -> storage -> offset:int -> length:int -> int
 
   (** [decompress ~length input] returns LZ4-decompressed [input] or raises [Corrupted]
       if [input] does not constitute a valid LZ4-compressed stream which uncompresses
@@ -31,13 +31,13 @@ module type S = sig
       Raises [Invalid_argument "LZ4.decompress"] if [length] is negative. *)
   val decompress : length:int -> storage -> storage
 
-  (** [decompress_buff input output ~offset ~length]
+  (** [decompress_at input output ~offset ~length]
       writes LZ4-decompressed [input] into [output] starting at offset [offset]
       or raises [Corrupted]
       if [input] does not constitute a valid LZ4-compressed stream which uncompresses
       into [length] bytes or less.
       Raises [Invalid_argument "LZ4.decompress"] if [length] or [offset] is negative. *)
-  val decompress_buff : storage -> storage -> offset:int -> length:int -> int
+  val decompress_at : storage -> storage -> offset:int -> length:int -> int
 
 end
 
