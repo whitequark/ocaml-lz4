@@ -1,14 +1,12 @@
 language: c
-env:
-  - OPAM_PACKAGES="ctypes ounit oasis"
 script:
-  - echo "yes" | sudo add-apt-repository ppa:avsm/ppa
+  - echo "yes" | sudo add-apt-repository ppa:avsm/ocaml42+opam12
   - echo "yes" | sudo add-apt-repository ppa:nathan-renniewaldock/ppa # lz4
   - sudo apt-get update -qq
   - sudo apt-get install -qq ocaml opam liblz4-dev
   - export OPAMYES=1
   - opam init
   - eval `opam config -env`
-  - opam install -q -y ${OPAM_PACKAGES}
-  - ./configure --enable-tests
-  - make test
+  - opam pin add -n -k path lz4 .
+  - opam install --deps-only -d -t lz4
+  - opam install -d -t -v lz4
