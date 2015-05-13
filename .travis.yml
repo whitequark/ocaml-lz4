@@ -9,4 +9,5 @@ script:
   - eval `opam config -env`
   - opam pin add -n -k path lz4 .
   - opam install --deps-only -d -t lz4
+  - opam install oasis
   - opam install -d -t -v lz4
