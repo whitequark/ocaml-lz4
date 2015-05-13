@@ -6,7 +6,7 @@ build: [
   ["ocaml" "setup.ml" "-install"]
 ]
 remove: [["ocamlfind" "remove" "lz4"]]
-depends: ["base-bytes" "ocamlfind" "ctypes" {>= "0.3.2"}]
+depends: ["base-bytes" "ocamlfind" "ctypes" {>= "0.4.1"}]
 depexts: [
   [["debian"] ["liblz4-dev"]]
   [["ubuntu"] ["liblz4-dev"]]
