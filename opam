@@ -4,10 +4,10 @@ version: "1.0.2"
 maintainer: "whitequark@whitequark.org"
 authors: [ "whitequark@whitequark.org" ]
 license: "BSD-3-clause"
-homepage: "https://github.com/whitequark/lz4"
-doc: "http://whitequark.github.io/lz4"
-bug-reports: "https://github.com/whitequark/lz4/issues"
-dev-repo: "git://github.com/whitequark/lz4.git"
+homepage: "https://github.com/whitequark/ocaml-lz4"
+doc: "http://whitequark.github.io/ocaml-lz4"
+bug-reports: "https://github.com/whitequark/ocaml-lz4/issues"
+dev-repo: "git://github.com/whitequark/ocaml-lz4.git"
 tags: [ "syntax" ]
 build: [
   ["ocaml" "setup.ml" "-configure" "--prefix" prefix]

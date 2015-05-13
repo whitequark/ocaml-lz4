@@ -56,8 +56,14 @@ NAME_VERSION := $$(opam query --name-version)
 ARCHIVE      := $$(opam query --archive)
 
 release:
+	git checkout -B release
+	oasis setup
+	git add .
+	git commit -m "Generate OASIS files."
 	git tag -a v$(VERSION) -m "Version $(VERSION)."
 	git push origin v$(VERSION)
+	git checkout @{-1}
+	git branch -D release
 	opam publish prepare $(NAME_VERSION) $(ARCHIVE)
 	opam publish submit $(NAME_VERSION)
 	rm -rf $(NAME_VERSION)
