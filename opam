@@ -22,7 +22,12 @@ build-doc: [
   ["ocaml" "setup.ml" "-doc"]
 ]
 remove: [["ocamlfind" "remove" "lz4"]]
-depends: ["base-bytes" "ocamlfind" "ctypes" {>= "0.4.1"}]
+depends: [
+  "base-bytes"
+  "ocamlfind"
+  "ctypes" {>= "0.4.1"}
+  "ounit" {test}
+]
 depexts: [
   [["debian"] ["liblz4-dev"]]
   [["ubuntu"] ["liblz4-dev"]]
