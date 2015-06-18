@@ -12,15 +12,30 @@ val compress_bound : int -> int
 module type S = sig
   type storage
 
+  (** [compress_into input output] places LZ4-compressed [input] into [output]
+      and returns the length of compressed output or raises [Input_too_large]
+      if [input] is longer than [0x7E000000] bytes or [output] is not long
+      enough to contain the compressed [input].
+
+      This function does not allocate. *)
+  val compress_into   : storage -> storage -> int
+
   (** [compress input] returns LZ4-compressed [input] or raises [Input_too_large]
       if [input] is longer than [0x7E000000] bytes. *)
-  val compress   : storage -> storage
+  val compress        : storage -> storage
+
+  (** [decompress_into input output] places LZ4-decompressed [input] into [output]
+      or raises [Corrupted] if [input] does not constitute a valid LZ4-compressed
+      stream which uncompresses into the amount of bytes available in [output] or less.
+
+      This function does not allocate. *)
+  val decompress_into : storage -> storage -> int
 
   (** [decompress ~length input] returns LZ4-decompressed [input] or raises [Corrupted]
       if [input] does not constitute a valid LZ4-compressed stream which uncompresses
       into [length] bytes or less.
       Raises [Invalid_argument "LZ4.decompress"] if [length] is negative. *)
-  val decompress : length:int -> storage -> storage
+  val decompress      : length:int -> storage -> storage
 end
 
 module Bytes    : S with type storage = Bytes.t

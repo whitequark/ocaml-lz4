@@ -18,27 +18,45 @@ let compress_bound sz =
 module type S = sig
   type storage
 
-  val compress   : storage -> storage
+  val compress_into : storage -> storage -> int
+  val compress : storage -> storage
+  val decompress_into : storage -> storage -> int
   val decompress : length:int -> storage -> storage
 end
 
 module Bytes = struct
   type storage = Bytes.t
 
-  let compress input =
-    let output = Bytes.create (compress_bound (Bytes.length input)) in
+  let compress_into input output =
     let length = C.b_compress (ocaml_bytes_start input) (ocaml_bytes_start output)
-                              (Bytes.length input) in
-    Bytes.sub output 0 length
+                              (Bytes.length input) (Bytes.length output) in
+    if length = 0 && Bytes.length input <> 0 then
+      raise Input_too_large
+    else
+      length
+
+  let compress input =
+    let length  = compress_bound (Bytes.length input) in
+    let output  = Bytes.create length in
+    let length' = compress_into input output in
+    if length' <> length then
+      Bytes.sub output 0 length'
+    else
+      output
+
+  let decompress_into input output =
+    let length = C.b_decompress (ocaml_bytes_start input) (ocaml_bytes_start output)
+                                (Bytes.length input) (Bytes.length output) in
+    if length < 0 then
+      raise Corrupted
+    else
+      length
 
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
     let output  = Bytes.create length in
-    let length' = C.b_decompress (ocaml_bytes_start input) (ocaml_bytes_start output)
-                                 (Bytes.length input) length in
-    if length' < 0 then
-      raise Corrupted
-    else if length' <> length then
+    let length' = decompress_into input output in
+    if length' <> length then
       Bytes.sub output 0 length'
     else
       output
@@ -50,20 +68,36 @@ module Bigbytes = struct
 
   open Bigarray
 
-  let compress input =
-    let output = Array1.create char c_layout (compress_bound (Array1.dim input)) in
+  let compress_into input output =
     let length = C.ba_compress (bigarray_start array1 input) (bigarray_start array1 output)
-                               (Array1.dim input) in
-    Array1.sub output 0 length
+                               (Array1.dim input) (Array1.dim output) in
+    if length = 0 && Array1.dim input <> 0 then
+      raise Input_too_large
+    else
+      length
+
+  let compress input =
+    let length  = compress_bound (Array1.dim input) in
+    let output  = Array1.create char c_layout length in
+    let length' = compress_into input output in
+    if length' <> length then
+      Array1.sub output 0 length'
+    else
+      output
+
+  let decompress_into input output =
+    let length = C.ba_decompress (bigarray_start array1 input) (bigarray_start array1 output)
+                                 (Array1.dim input) (Array1.dim output) in
+    if length < 0 then
+      raise Corrupted
+    else
+      length
 
   let decompress ~length input =
     if length < 0 then invalid_arg "LZ4.decompress";
     let output  = Array1.create char c_layout length in
-    let length' = C.ba_decompress (bigarray_start array1 input) (bigarray_start array1 output)
-                                  (Array1.dim input) length in
-    if length' < 0 then
-      raise Corrupted
-    else if length' <> length then
+    let length' = decompress_into input output in
+    if length' <> length then
       Array1.sub output 0 length'
     else
       output
