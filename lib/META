@@ -1,0 +1,12 @@
+# OASIS_START
+# DO NOT EDIT (digest: d19426e969029aba2402fb5a9fc1e05e)
+version = "1.1.0"
+description = "LZ4 bindings for OCaml"
+requires = "bytes ctypes.stubs"
+archive(byte) = "lz4.cma"
+archive(byte, plugin) = "lz4.cma"
+archive(native) = "lz4.cmxa"
+archive(native, plugin) = "lz4.cmxs"
+exists_if = "lz4.cma"
+# OASIS_STOP
+

@@ -1,3 +1,44 @@
 true: warn(@5@8@10@11@12@14@23@24@26@29@40)
 # OASIS_START
+# DO NOT EDIT (digest: bf909defc90d8fabdec73d923941a78c)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+true: annot, bin_annot
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Executable lz4_bindgen
+"lib_gen/LZ4_bindgen.byte": pkg_ctypes.stubs
+<lib_gen/*.ml{,i,y}>: pkg_ctypes.stubs
+# Library lz4
+"lib/lz4.cmxs": use_lz4
+<lib/*.ml{,i,y}>: oasis_library_lz4_ccopt
+"lib/LZ4_stubs.c": oasis_library_lz4_ccopt
+<lib/lz4.{cma,cmxa}>: oasis_library_lz4_cclib
+"lib/liblz4_stubs.lib": oasis_library_lz4_cclib
+"lib/dlllz4_stubs.dll": oasis_library_lz4_cclib
+"lib/liblz4_stubs.a": oasis_library_lz4_cclib
+"lib/dlllz4_stubs.so": oasis_library_lz4_cclib
+<lib/lz4.{cma,cmxa}>: use_liblz4_stubs
+<lib/*.ml{,i,y}>: pkg_bytes
+<lib/*.ml{,i,y}>: pkg_ctypes.stubs
+"lib/LZ4_stubs.c": pkg_bytes
+"lib/LZ4_stubs.c": pkg_ctypes.stubs
+# Executable test_lz4
+<lib_test/test_LZ4.{native,byte}>: pkg_bytes
+<lib_test/test_LZ4.{native,byte}>: pkg_ctypes.stubs
+<lib_test/test_LZ4.{native,byte}>: pkg_oUnit
+<lib_test/test_LZ4.{native,byte}>: use_lz4
+<lib_test/*.ml{,i,y}>: pkg_bytes
+<lib_test/*.ml{,i,y}>: pkg_ctypes.stubs
+<lib_test/*.ml{,i,y}>: pkg_oUnit
+<lib_test/*.ml{,i,y}>: use_lz4
 # OASIS_STOP
