@@ -1,6 +1,6 @@
 OASISFormat  : 0.4
 Name         : lz4
-Version      : 1.0
+Version      : 1.1.0
 Synopsis     : LZ4 bindings for OCaml
 Authors      : Peter Zotov
 License      : BSD-3-clause
