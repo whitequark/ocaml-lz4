@@ -2,11 +2,11 @@ OASISFormat  : 0.4
 Name         : lz4
 Version      : 1.1.1
 Synopsis     : LZ4 bindings for OCaml
-Authors      : Peter Zotov
+Authors      : whitequark
 License      : BSD-3-clause
 Plugins      : DevFiles (0.3), META (0.3)
 BuildTools   : ocamlbuild
-Maintainers  : Peter Zotov <whitequark@whitequark.org>
+Maintainers  : whitequark <whitequark@whitequark.org>
 Homepage     : https://github.com/whitequark/ocaml-lz4
 
 Library "lz4"
