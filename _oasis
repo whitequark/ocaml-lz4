@@ -15,7 +15,7 @@ Library "lz4"
   InternalModules:  LZ4_bindings, LZ4_generated
   CSources:         LZ4_stubs.c
   CCLib:            -llz4
-  CCOpt:            -I $pkg_ctypes_stubs
+  CCOpt:            -I $pkg_ctypes_stubs -I /usr/local/include
   BuildDepends:     bytes, ctypes.stubs
   BuildTools:       lz4_bindgen
 
