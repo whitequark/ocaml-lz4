@@ -30,7 +30,7 @@ To roundtrip some data:
 let data         = "wild wild fox" in
 let compressed   = LZ4.Bytes.compress (Bytes.of_string data) in
 let decompressed = LZ4.Bytes.decompress ~length:(String.length data) compressed in
-Printf.printf "%S\n" (Bytes.to_string data) (* => "wild wild fox" *)
+Printf.printf "%S\n" (Bytes.to_string decompressed) (* => "wild wild fox" *)
 ```
 
 Documentation
