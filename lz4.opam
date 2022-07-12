@@ -1,4 +1,4 @@
-opam-version: "1.2"
+opam-version: "2.0"
 name: "lz4"
 version: "1.1.1"
 maintainer: "whitequark <whitequark@whitequark.org>"
@@ -10,24 +10,16 @@ bug-reports: "https://github.com/whitequark/ocaml-lz4/issues"
 dev-repo: "git://github.com/whitequark/ocaml-lz4.git"
 tags: [ "syntax" ]
 build: [
-  ["ocaml" "setup.ml" "-configure" "--prefix" prefix]
-  ["ocaml" "setup.ml" "-build"]
+  ["dune" "build" "@install" "-j" jobs "-p" name]
+  ["dune" "runtest" "-j" jobs "-p" name] {with-test}
+  ["dune" "build" "@doc" "-j" jobs "-p" name] {with-doc}
 ]
-build-test: [
-  ["ocaml" "setup.ml" "-configure" "--prefix" prefix "--enable-tests"]
-  ["ocaml" "setup.ml" "-build"]
-  ["ocaml" "setup.ml" "-test"]
-]
-build-doc: [
-  ["ocaml" "setup.ml" "-doc"]
-]
-install: [["ocaml" "setup.ml" "-install"]]
-remove: [["ocamlfind" "remove" "lz4"]]
 depends: [
   "base-bytes"
   "ocamlfind"
+  "dune"
   "ctypes" {>= "0.4.1"}
-  "ounit" {test}
+  "ounit2" {test}
 ]
 depexts: [
   [["debian"] ["liblz4-dev"]]
