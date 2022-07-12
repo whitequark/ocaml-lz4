@@ -1,6 +1,7 @@
 opam-version: "2.0"
 name: "lz4"
 version: "1.1.1"
+synopsis: "Bindings to the LZ4 compression algorithm"
 maintainer: "whitequark <whitequark@whitequark.org>"
 authors: [ "whitequark <whitequark@whitequark.org>" ]
 license: "BSD-3-clause"
@@ -8,7 +9,7 @@ homepage: "https://github.com/whitequark/ocaml-lz4"
 doc: "http://whitequark.github.io/ocaml-lz4"
 bug-reports: "https://github.com/whitequark/ocaml-lz4/issues"
 dev-repo: "git://github.com/whitequark/ocaml-lz4.git"
-tags: [ "syntax" ]
+tags: [ "lz4" "compression" "decompression" ]
 build: [
   ["dune" "build" "@install" "-j" jobs "-p" name]
   ["dune" "runtest" "-j" jobs "-p" name] {with-test}
@@ -16,10 +17,10 @@ build: [
 ]
 depends: [
   "base-bytes"
-  "ocamlfind"
-  "dune"
+  "dune" { >= "2.0" }
   "ctypes" {>= "0.4.1"}
-  "ounit2" {test}
+  "ounit2" {with-test}
+  "odoc" {with-doc}
 ]
 depexts: [
   [["debian"] ["liblz4-dev"]]
