@@ -1,5 +1,4 @@
-OCaml LZ4 bindings
-==================
+# OCaml LZ4 bindings [![build](https://github.com/whitequark/ocaml-lz4/actions/workflows/main.yml/badge.svg)](https://github.com/whitequark/ocaml-lz4/actions/workflows/main.yml)
 
 This package contains bindings for [LZ4][], a very fast lossless compression
 algorithm.
@@ -15,8 +14,7 @@ The bindings are available via [OPAM](https://opam.ocaml.org):
 
 Alternatively, you can do it manually:
 
-    $ opam install ctypes
-    $ ./configure
+    $ opam install dune ctypes
     $ make all install
 
 Usage

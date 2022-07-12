@@ -1,6 +1,9 @@
 
-build:
+all:
 	@dune build @install
+
+install: all
+	@dune install
 
 clean:
 	@dune clean
