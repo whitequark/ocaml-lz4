@@ -1,5 +1,5 @@
 (library
  (name lz4)
  (wrapped false)
- (libraries ctypes lz4.generated lz4.bindings)
+ (libraries ctypes lz4.generated lz4.bindings bigarray)
  (public_name lz4))
