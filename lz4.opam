@@ -16,7 +16,7 @@ build: [
   ["dune" "build" "@doc" "-j" jobs "-p" name] {with-doc}
 ]
 depends: [
-  "base-bytes"
+  "ocaml" {>= "4.02"}
   "conf-liblz4"
   "dune" { >= "2.0" }
   "ctypes" {>= "0.4.1"}
