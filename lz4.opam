@@ -17,12 +17,9 @@ build: [
 ]
 depends: [
   "base-bytes"
+  "conf-lz4"
   "dune" { >= "2.0" }
   "ctypes" {>= "0.4.1"}
   "ounit2" {with-test}
   "odoc" {with-doc}
-]
-depexts: [
-  [["debian"] ["liblz4-dev"]]
-  [["ubuntu"] ["liblz4-dev"]]
 ]
