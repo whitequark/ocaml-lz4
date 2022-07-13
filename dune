@@ -1,0 +1,4 @@
+
+(env
+  (_ (flags :standard -strict-sequence -safe-string
+            -warn-error -a+8)))

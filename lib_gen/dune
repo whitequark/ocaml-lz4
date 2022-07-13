@@ -1,0 +1,30 @@
+(library
+ (name lz4_bindings)
+ (public_name lz4.bindings)
+ (wrapped false)
+ (modules LZ4_bindings)
+ (libraries ctypes))
+
+(library
+ (name lz4_generated)
+ (public_name lz4.generated)
+ (wrapped false)
+ (modules LZ4_generated)
+ (foreign_stubs
+  (language c)
+  (names LZ4_stubs))
+ (c_library_flags -llz4)
+ (libraries ctypes))
+
+(executable
+ (name LZ4_bindgen)
+ (modules LZ4_bindgen)
+ (libraries ctypes.stubs lz4.bindings))
+
+(rule
+ (targets LZ4_generated.ml LZ4_stubs.c)
+ (deps
+  (:gen LZ4_bindgen.exe)
+  LZ4_bindings.ml)
+ (action
+  (run %{gen})))

@@ -1,6 +1,6 @@
 open OUnit2
 
-let test_compress_bound ctxt =
+let test_compress_bound _ctxt =
   assert_equal ~printer:string_of_int 273 (LZ4.compress_bound 256);
   assert_equal ~printer:string_of_int 1_073_741_823 (* max_int at 32-bit *)
     (LZ4.compress_bound 1_069_547_504);
@@ -15,11 +15,11 @@ let output = "\x51\x77\x69\x6c\x64\x20\x05\x00\x32\x66\x6f\x78\x09\x00\
               \x80\x77\x69\x6c\x64\x20\x66\x6f\x78"
 let printer = Printf.sprintf "%S"
 
-let test_compress_bytes ctxt =
+let test_compress_bytes _ctxt =
   let output' = LZ4.Bytes.compress (Bytes.of_string input) in
   assert_equal ~printer output (Bytes.to_string output')
 
-let test_decompress_bytes ctxt =
+let test_decompress_bytes _ctxt =
   let input'  = LZ4.Bytes.decompress ~length:(String.length input) (Bytes.of_string output) in
   assert_equal ~printer input (Bytes.to_string input');
   assert_raises LZ4.Corrupted (fun () ->
@@ -41,11 +41,11 @@ let of_bigbytes ba =
   for i = 0 to len - 1 do Bytes.set b i ba.{i} done;
   Bytes.to_string b
 
-let test_compress_bigbytes ctxt =
+let test_compress_bigbytes _ctxt =
   let output' = LZ4.Bigbytes.compress (to_bigbytes input) in
   assert_equal ~printer output (of_bigbytes output')
 
-let test_decompress_bigbytes ctxt =
+let test_decompress_bigbytes _ctxt =
   let input'  = LZ4.Bigbytes.decompress ~length:(String.length input) (to_bigbytes output) in
   assert_equal ~printer input (of_bigbytes input');
   assert_raises LZ4.Corrupted (fun () ->
