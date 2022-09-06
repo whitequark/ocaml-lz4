@@ -5,6 +5,8 @@ module C = LZ4_bindings.C(LZ4_generated)
 exception Input_too_large
 exception Corrupted
 
+let version_number = C.version_number()
+
 let compress_bound sz =
   if sz < 0 then invalid_arg "LZ4.compress_bound";
   if Sys.word_size = 32 then (

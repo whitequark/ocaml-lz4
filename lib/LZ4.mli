@@ -9,6 +9,9 @@ exception Corrupted
     Raises [Invalid_argument "LZ4.compress_bound"] if [sz] is negative. *)
 val compress_bound : int -> int
 
+(** Version number of the LZ4 library *)
+val version_number : int
+
 module type S = sig
   type storage
 
