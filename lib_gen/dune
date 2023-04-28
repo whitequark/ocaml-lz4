@@ -3,7 +3,7 @@
  (public_name lz4.bindings)
  (wrapped false)
  (modules LZ4_bindings)
- (libraries ctypes))
+ (libraries ctypes ctypes.stubs))
 
 (library
  (name lz4_generated)
