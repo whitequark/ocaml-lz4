@@ -19,6 +19,7 @@ depends: [
   "ocaml" {>= "4.02"}
   "conf-liblz4"
   "dune" { >= "2.0" }
+  "dune-configurator"
   "ctypes" {>= "0.4.1"}
   "ounit2" {with-test}
   "odoc" {with-doc}
