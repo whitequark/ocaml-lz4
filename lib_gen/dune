@@ -12,14 +12,20 @@
  (modules LZ4_generated)
  (foreign_stubs
   (language c)
+  (flags :standard (:include c_flags.sexp))
   (names LZ4_stubs))
- (c_library_flags -llz4)
+ (c_library_flags (:include c_library_flags.sexp))
  (libraries ctypes))
 
 (executable
  (name LZ4_bindgen)
  (modules LZ4_bindgen)
  (libraries ctypes.stubs lz4.bindings))
+
+(rule
+  (targets c_flags.sexp c_library_flags.sexp)
+  (deps (:discover config/discover.exe))
+  (action (run %{discover})))
 
 (rule
  (targets LZ4_generated.ml LZ4_stubs.c)
